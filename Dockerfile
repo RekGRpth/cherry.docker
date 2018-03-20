@@ -18,16 +18,22 @@ RUN apt-get update --yes --quiet && \
     echo "\"\\e[A\": history-search-backward" >> /etc/inputrc && \
     echo "\"\\e[B\": history-search-forward" >> /etc/inputrc
 
-RUN echo "LDAPTrustedMode SSL" >> /etc/apache2/apache2.conf && \
-    echo "LDAPVerifyServerCert SSL" >> /etc/apache2/apache2.conf
+RUN echo "IncludeOptional /data/apache2/*.conf" >> /etc/apache2/apache2.conf && \
+    ln --force --symbolic ../mods-available/authnz_ldap.load /etc/apache2/mods-enabled/authnz_ldap.load && \
+    ln --force --symbolic ../mods-available/cgi.load /etc/apache2/mods-enabled/cgi.load && \
+    ln --force --symbolic ../mods-available/cgid.load /etc/apache2/mods-enabled/cgid.load && \
+    ln --force --symbolic ../mods-available/cgid.conf /etc/apache2/mods-enabled/cgid.conf && \
+    ln --force --symbolic ../mods-available/ldap.conf /etc/apache2/mods-enabled/ldap.conf && \
+    ln --force --symbolic ../mods-available/ldap.load /etc/apache2/mods-enabled/ldap.load && \
+    ln --force --symbolic ../mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load && \
+    ln --force --symbolic ../mods-available/socache_shmcb.load /etc/apache2/mods-enabled/socache_shmcb.load && \
+    ln --force --symbolic ../mods-available/ssl.conf /etc/apache2/mods-enabled/ssl.conf && \
+    ln --force --symbolic ../mods-available/ssl.load /etc/apache2/mods-enabled/ssl.load && \
+    ln --force --symbolic ../mods-available/suexec.load /etc/apache2/mods-enabled/suexec.load && \
+    rm --force /etc/apache2/sites-enabled/*.conf
 
 ENV HOME /data
 ENV LANG ru_RU.UTF-8
-ENV APACHE_RUN_DIR /data/cherry
-ENV APACHE_RUN_USER www-data
-ENV APACHE_RUN_GROUP www-data
-ENV APACHE_LOG_DIR /data/log
-ENV APACHE_PID_FILE /run/apache2/apache2.pid
 
 ADD entrypoint.sh /
 RUN chmod +x /entrypoint.sh
@@ -36,4 +42,4 @@ ENTRYPOINT ["/entrypoint.sh"]
 VOLUME /data
 WORKDIR /data/cherry
 
-CMD [ "apache2", "-k", "start" ]
+CMD [ "apache2ctl", "-DFOREGROUND" ]

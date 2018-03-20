@@ -17,4 +17,6 @@ fi
 usermod --home "$HOME" $USER
 chown --recursive "$USER_ID":"$GROUP_ID" "$HOME"
 
+sed -i "/^export APACHE_LOG_DIR/cexport APACHE_LOG_DIR=$HOME/log" "/etc/apache2/envvars"
+
 exec "$@"

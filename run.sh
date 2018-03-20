@@ -14,5 +14,8 @@ docker run \
     --env GROUP_ID=$(id -g) \
     --hostname cherry \
     --name cherry \
+    --publish 4320:443 \
+    --volume /etc/certs/t72.crt:/etc/apache2/ssl/t72.crt:ro \
+    --volume /etc/certs/t72.key:/etc/apache2/ssl/t72.key:ro \
     --volume cherry:/data \
     rekgrpth/cherry

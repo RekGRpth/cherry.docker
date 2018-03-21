@@ -32,8 +32,8 @@ RUN echo "IncludeOptional /data/apache2/*.conf" >> /etc/apache2/apache2.conf && 
     ln --force --symbolic ../mods-available/suexec.load /etc/apache2/mods-enabled/suexec.load && \
     rm --force /etc/apache2/sites-enabled/*.conf
 
-ENV HOME /data
-ENV LANG ru_RU.UTF-8
+ENV HOME /data \
+    LANG ru_RU.UTF-8
 
 ADD entrypoint.sh /
 RUN chmod +x /entrypoint.sh

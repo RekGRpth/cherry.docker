@@ -38,7 +38,7 @@ ENV HOME=/data \
     GROUP=www-data
 
 ADD entrypoint.sh /
-RUN chmod +x /entrypoint.sh && usermod --home ${HOME} ${USER}
+RUN chmod +x /entrypoint.sh && usermod --home "${HOME}" "${USER}"
 ENTRYPOINT ["/entrypoint.sh"]
 
 VOLUME  ${HOME}

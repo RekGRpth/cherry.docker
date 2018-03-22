@@ -42,6 +42,6 @@ RUN chmod +x /entrypoint.sh && usermod --home ${HOME} ${USER}
 ENTRYPOINT ["/entrypoint.sh"]
 
 VOLUME  ${HOME}
-WORKDIR ${HOME}/cherry
+WORKDIR ${HOME}/app
 
 CMD [ "apache2ctl", "-DFOREGROUND" ]

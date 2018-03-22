@@ -32,13 +32,16 @@ RUN echo "IncludeOptional /data/apache2/*.conf" >> /etc/apache2/apache2.conf \
     && rm --force /etc/apache2/sites-enabled/*.conf
 
 ENV HOME=/data \
-    LANG=ru_RU.UTF-8
+    LANG=ru_RU.UTF-8 \
+    TZ=Asia/Yekaterinburg \
+    USER=www-data \
+    GROUP=www-data
 
 ADD entrypoint.sh /
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh && usermod --home ${HOME} ${USER}
 ENTRYPOINT ["/entrypoint.sh"]
 
-VOLUME /data
-WORKDIR /data/cherry
+VOLUME  ${HOME}
+WORKDIR ${HOME}/cherry
 
 CMD [ "apache2ctl", "-DFOREGROUND" ]

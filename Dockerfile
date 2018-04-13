@@ -3,13 +3,24 @@ FROM alpine
 MAINTAINER RekGRpth
 
 RUN apk add --no-cache \
+        alpine-sdk \
         apache2 \
         apache2-ldap \
         apache2-ssl \
         perl \
+        perl-cgi \
+        perl-cgi-session \
+        perl-module-build \
+        perl-utils \
+        perl-yaml-syck \
         shadow \
         su-exec \
-        tzdata
+        tzdata \
+    && cpan -i CGI/Deurl.pm \
+    && apk del \
+        alpine-sdk \
+        perl-module-build \
+        perl-utils
 
 #RUN apt-get update --yes --quiet \
 #    && apt-get full-upgrade --yes --quiet \

@@ -20,5 +20,5 @@ docker run \
     --volume /etc/certs/t72.crt:/etc/ssl/apache2/server.pem:ro \
     --volume /etc/certs/t72.key:/etc/ssl/apache2/server.key:ro \
     --volume cherry:/data \
+    --volume /var/lib/docker/volumes/cherry/_data/apache2.conf:/etc/apache2/conf.d/ssl.conf:ro \
     rekgrpth/cherry
-#    --volume /var/lib/docker/volumes/cherry/_data/apache2.conf:/etc/apache2/conf.d/cherry.conf:ro \

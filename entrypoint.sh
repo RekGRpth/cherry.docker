@@ -12,16 +12,16 @@ if [ "$USER_ID" != "$(id -u "$USER")" ]; then
     usermod --uid "$USER_ID" "$USER"
 fi
 
-rm -rf /var/www/localhost && ln -sf "$HOME/app" /var/www/localhost
+rm -rf /var/www/localhost/htdocs && ln -sf "$HOME/app" /var/www/localhost/htdocs
 rm -rf /var/www/logs && ln -sf "$HOME/log" /var/www/logs
 
 #sed -i "/^export APACHE_LOG_DIR/cexport APACHE_LOG_DIR=$HOME/log" "/etc/apache2/envvars"
 #sed -i "/^ServerRoot/cServerRoot $HOME/app" "/etc/apache2/httpd.conf"
 #sed -i "/^Listen/cListen 4320" "/etc/apache2/httpd.conf"
 sed -i "/^#ServerName/cServerName $HOSTNAME" "/etc/apache2/httpd.conf"
-sed -i "/^ServerName/cServerName $HOSTNAME:443" "/etc/apache2/conf.d/ssl.conf"
+#sed -i "/^ServerName/cServerName $HOSTNAME:443" "/etc/apache2/conf.d/ssl.conf"
 sed -i "/^ServerAdmin/cServerAdmin cherry@$HOSTNAME" "/etc/apache2/httpd.conf"
-sed -i "/^ServerAdmin/cServerAdmin cherry@$HOSTNAME" "/etc/apache2/conf.d/ssl.conf"
+#sed -i "/^ServerAdmin/cServerAdmin cherry@$HOSTNAME" "/etc/apache2/conf.d/ssl.conf"
 sed -i "s|#AddHandler cgi-script .cgi|AddHandler cgi-script .cgi|g" "/etc/apache2/httpd.conf"
 #sed -i "/^ServerName/cServerName $HOSTNAME:443" "/etc/apache2/conf.d/ssl.conf"
 #DocumentRoot "/var/www/localhost/htdocs"

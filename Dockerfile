@@ -10,7 +10,9 @@ RUN apk add --no-cache \
         perl \
         perl-cgi \
         perl-cgi-session \
-        perl-module-build \
+        perl-dbd-pg \
+        perl-dbi \
+#        perl-module-build \
         perl-utils \
         perl-yaml-syck \
         shadow \
@@ -19,7 +21,7 @@ RUN apk add --no-cache \
     && cpan -i CGI/Deurl.pm \
     && apk del \
         alpine-sdk \
-        perl-module-build \
+#        perl-module-build \
         perl-utils
 
 #RUN apt-get update --yes --quiet \

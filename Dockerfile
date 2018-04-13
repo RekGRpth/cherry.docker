@@ -7,6 +7,7 @@ RUN apk add --no-cache \
         apache2 \
         apache2-ldap \
         apache2-ssl \
+        coreutils \
         perl \
         perl-cgi \
         perl-cgi-session \

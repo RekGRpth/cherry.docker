@@ -1,10 +1,10 @@
 #!/bin/sh
 
-docker build --tag rekgrpth/cherry . || exit $?
+#docker build --tag rekgrpth/cherry . || exit $?
 #docker push rekgrpth/cherry || exit $?
 docker stop cherry
 docker rm cherry
-#docker pull rekgrpth/cherry || exit $?
+docker pull rekgrpth/cherry || exit $?
 docker volume create cherry || exit $?
 docker run \
     --add-host `hostname -f`:`ip -4 addr show docker0 | grep -oP 'inet \K[\d.]+'` \

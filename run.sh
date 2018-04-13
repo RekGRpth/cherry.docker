@@ -16,8 +16,8 @@ docker run \
     --hostname cherry \
     --name cherry \
     --publish 4320:443 \
-    --volume /etc/certs/t72.crt:/etc/apache2/ssl/t72.crt:ro \
-    --volume /etc/certs/t72.key:/etc/apache2/ssl/t72.key:ro \
+    --volume /etc/certs/t72.crt:/etc/ssl/apache2/server.pem:ro \
+    --volume /etc/certs/t72.key:/etc/ssl/apache2/server.key:ro \
     --volume cherry:/data \
+    --volume /var/lib/docker/volumes/cherry/_data/apache2.conf:/etc/apache2/conf.d/cherry.conf:ro \
     rekgrpth/cherry
-#    --volume /var/lib/docker/volumes/cherry/_data/apache2.conf:/etc/apache2/conf.d/cherry.conf:ro \

@@ -13,13 +13,18 @@ if [ "$USER_ID" != "$(id -u "$USER")" ]; then
 fi
 
 #sed -i "/^export APACHE_LOG_DIR/cexport APACHE_LOG_DIR=$HOME/log" "/etc/apache2/envvars"
-#sed -i "/^ServerRoot/cServerRoot $HOME/app" "/etc/apache2/httpd.conf"
-sed -i "/^Listen/cListen 4320" "/etc/apache2/httpd.conf"
+sed -i "/^ServerRoot/cServerRoot $HOME/app" "/etc/apache2/httpd.conf"
+#sed -i "/^Listen/cListen 4320" "/etc/apache2/httpd.conf"
 sed -i "/^#ServerName/cServerName $HOSTNAME" "/etc/apache2/httpd.conf"
 #ln -sf /var/log/apache2 "$HOME/logs"
 #ln -sf /usr/lib/apache2 "$HOME/modules"
 #ln -sf /run/apache2 "$HOME/run"
 #sed -i "s|'/var/lib/pgadmin'|'$HOME'|gi" "/etc/apache2/httpd.conf"
+sed -i "s| modules/| /usr/lib/apache2/|g" "/etc/apache2/httpd.conf"
+sed -i "s| modules/| /usr/lib/apache2/|g" "/etc/apache2/conf.d/ssl.conf"
+sed -i "s|logs/error.log|$HOME/log/error.log|g" "/etc/apache2/httpd.conf"
+sed -i "s|logs/access.log|$HOME/log/access.log|g" "/etc/apache2/httpd.conf"
+sed -i "s|logs/ssl_|$HOME/log/ssl.|g" "/etc/apache2/conf.d/ssl.conf"
 
 find "$HOME" ! -group "$GROUP" -exec chgrp "$GROUP_ID" {} \;
 find "$HOME" ! -user "$USER" -exec chown "$USER_ID" {} \;

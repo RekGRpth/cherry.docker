@@ -4,6 +4,7 @@ MAINTAINER RekGRpth
 
 RUN apk add --no-cache \
         apache2 \
+        apache2-ssl \
         shadow \
         su-exec \
         tzdata
@@ -44,7 +45,7 @@ ENV HOME=/data \
 #    && rm -f /etc/apache2/sites-enabled/*.conf
 
 ADD entrypoint.sh /
-RUN chmod +x /entrypoint.sh && usermod --home "${HOME}" "${USER}"
+RUN chmod +x /entrypoint.sh && usermod --home "${HOME}" "${USER}" && mkdir -p /run/apache2
 ENTRYPOINT ["/entrypoint.sh"]
 
 VOLUME  ${HOME}

@@ -4,7 +4,9 @@ MAINTAINER RekGRpth
 
 RUN apk add --no-cache \
         apache2 \
+        apache2-ldap \
         apache2-ssl \
+        perl \
         shadow \
         su-exec \
         tzdata

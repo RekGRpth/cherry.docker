@@ -17,6 +17,7 @@ docker run \
     --hostname cherry \
     --name cherry \
     --publish 4320:443 \
+    --restart always \
     --volume /etc/certs/t72.crt:/etc/ssl/apache2/server.pem:ro \
     --volume /etc/certs/t72.key:/etc/ssl/apache2/server.key:ro \
     --volume cherry:/data \

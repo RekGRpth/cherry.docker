@@ -15,6 +15,7 @@ docker run \
     --env GROUP_ID=$(id -g) \
     --env HOSTNAME=cherry-`hostname -f` \
     --hostname cherry \
+    --link postgres \
     --name cherry \
     --publish 4320:443 \
     --restart always \

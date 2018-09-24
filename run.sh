@@ -18,8 +18,8 @@ docker run \
     --link postgres \
     --name cherry \
     --restart always \
-    --volume /etc/certs/`hostname -d`.crt:/etc/ssl/apache2/server.pem:ro \
-    --volume /etc/certs/`hostname -d`.key:/etc/ssl/apache2/server.key:ro \
+    --volume /etc/certs/`hostname -d`.crt:/etc/ssl/apache2/server.pem \
+    --volume /etc/certs/`hostname -d`.key:/etc/ssl/apache2/server.key \
     --volume cherry:/data \
-    --volume /var/lib/docker/volumes/cherry/_data/apache2.conf:/etc/apache2/conf.d/ssl.conf:ro \
+    --volume /var/lib/docker/volumes/cherry/_data/apache2.conf:/etc/apache2/conf.d/ssl.conf \
     rekgrpth/cherry

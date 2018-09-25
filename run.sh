@@ -6,6 +6,7 @@ docker stop cherry
 docker rm cherry
 docker pull rekgrpth/cherry || exit $?
 docker volume create cherry || exit $?
+docker network create my
 docker run \
     --add-host `hostname -f`:`ip -4 addr show docker0 | grep -oP 'inet \K[\d.]+'` \
     --add-host cherry-`hostname -f`:`ip -4 addr show docker0 | grep -oP 'inet \K[\d.]+'` \
@@ -15,8 +16,8 @@ docker run \
     --env GROUP_ID=$(id -g) \
     --env HOSTNAME=cherry-`hostname -f` \
     --hostname cherry \
-    --link postgres \
     --name cherry \
+    --network my \
     --restart always \
     --volume /etc/certs/`hostname -d`.crt:/etc/ssl/apache2/server.pem \
     --volume /etc/certs/`hostname -d`.key:/etc/ssl/apache2/server.key \

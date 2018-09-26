@@ -14,6 +14,7 @@ docker run \
     --env GROUP_ID=$(id -g) \
     --env HOSTNAME=cherry-$(hostname -f) \
     --hostname cherry \
+    --link nginx:django-$(hostname -f) \
     --name cherry \
     --network my \
     --restart always \

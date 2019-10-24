@@ -6,7 +6,7 @@ docker stop cherry
 docker rm cherry
 docker pull rekgrpth/cherry || exit $?
 docker volume create cherry || exit $?
-docker network create my
+docker network create --opt com.docker.network.bridge.name=docker docker
 docker run \
     --add-host ldap.t72.ru:$(getent hosts ldap.t72.ru | cut -d ' ' -f 1) \
     --detach \
@@ -17,7 +17,7 @@ docker run \
     --link nginx:django-$(hostname -f) \
     --link nginx:$(hostname -f) \
     --name cherry \
-    --network my \
+    --network docker \
     --restart always \
     --volume cherry:/data \
     --volume /etc/certs/$(hostname -d).crt:/etc/ssl/apache2/server.pem \

@@ -16,6 +16,7 @@ RUN set -ex \
         apache2 \
         apache2-ldap \
         apache2-ssl \
+        coreutils \
         perl \
         perl-cgi \
         perl-cgi-session \

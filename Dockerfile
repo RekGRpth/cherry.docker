@@ -18,7 +18,7 @@ RUN set -ex \
     && gcc -c /tmp/perlxsi.c -fPIC $(perl -MExtUtils::Embed -e ccopts) -o /tmp/perlxsi.o \
     && gcc -c /tmp/cgi_perl.c -fPIC $(perl -MExtUtils::Embed -e ccopts) -o /tmp/cgi_perl.o \
     && gcc -shared -o /usr/local/lib/cgi_perl.so -fPIC /tmp/perlxsi.o /tmp/cgi_perl.o $(perl -MExtUtils::Embed -e ldopts) \
-    && cpan -Ti CGI CGI::Deurl CGI::Session DBD::Pg DBI YAML::Syck \
+    && cpan -Ti CGI CGI::Deurl CGI::FastTemplate CGI::Session DBD::Pg DBI YAML YAML::Syck \
     && apk add --no-cache --virtual .cherry-rundeps \
         coreutils \
         uwsgi-cgi \

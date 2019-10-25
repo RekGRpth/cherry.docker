@@ -19,7 +19,7 @@ docker run \
     --name cherry \
     --network docker \
     --restart always \
-    --volume cherry:/data \
+    --volume cherry:/home \
     --volume /etc/certs/$(hostname -d).crt:/etc/ssl/apache2/server.pem \
     --volume /etc/certs/$(hostname -d).key:/etc/ssl/apache2/server.key \
     --volume /var/lib/docker/volumes/cherry/_data/apache2.conf:/etc/apache2/conf.d/ssl.conf \

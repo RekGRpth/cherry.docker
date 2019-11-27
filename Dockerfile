@@ -25,4 +25,4 @@ RUN set -ex \
         $(scanelf --needed --nobanner --format '%n#p' --recursive /usr/local | tr ',' '\n' | sort -u | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }') \
     && (strip /usr/local/bin/* /usr/local/lib/*.so || true) \
     && apk del --no-cache .build-deps \
-    && rm -rf /tmp/*
+    && rm -rf /usr/local/share/man /tmp/*

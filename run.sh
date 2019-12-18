@@ -17,5 +17,7 @@ docker run \
     --name cherry \
     --network docker \
     --restart always \
+    --volume /etc/certs/$(hostname -d).crt:/etc/ssl/server.crt \
+    --volume /etc/certs/$(hostname -d).key:/etc/ssl/server.key \
     --volume cherry:/home \
     rekgrpth/cherry uwsgi --ini cherry.ini

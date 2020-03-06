@@ -4,7 +4,7 @@
 #docker push rekgrpth/cherry || exit $?
 docker pull rekgrpth/cherry || exit $?
 docker volume create cherry || exit $?
-docker network create --attachable --driver overlay docker || echo $?
+docker network create --attachable --opt com.docker.network.bridge.name=docker docker || echo $?
 docker stop cherry || echo $?
 docker rm cherry || echo $?
 docker run \

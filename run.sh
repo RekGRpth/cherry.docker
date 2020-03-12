@@ -17,6 +17,7 @@ docker run \
     --name cherry \
     --network name=docker \
     --restart always \
-    --volume /etc/certs:/etc/certs \
     --volume cherry:/home \
+    --volume /etc/certs:/etc/certs \
+    --volume /run/postgresql:/run/postgresql \
     rekgrpth/cherry uwsgi --ini cherry.ini

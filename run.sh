@@ -20,4 +20,5 @@ docker run \
     --volume cherry:/home \
     --volume /etc/certs:/etc/certs \
     --volume /run/postgresql:/run/postgresql \
+    --volume /run/uwsgi:/run/uwsgi \
     rekgrpth/cherry uwsgi --ini cherry.ini

@@ -14,11 +14,11 @@ docker run \
     --env TZ=Asia/Yekaterinburg \
     --env USER_ID=$(id -u) \
     --hostname cherry \
+    --mount type=bind,source=/etc/certs,destination=/etc/certs,readonly \
+    --mount type=bind,source=/run/postgresql,destination=/run/postgresql \
+    --mount type=bind,source=/run/uwsgi,destination=/run/uwsgi \
+    --mount type=volume,source=cherry,destination=/home \
     --name cherry \
     --network name=docker \
     --restart always \
-    --volume cherry:/home \
-    --volume /etc/certs:/etc/certs \
-    --volume /run/postgresql:/run/postgresql \
-    --volume /run/uwsgi:/run/uwsgi \
     rekgrpth/cherry uwsgi --ini cherry.ini

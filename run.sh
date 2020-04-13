@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/sh -x
 
 #docker build --tag rekgrpth/cherry . || exit $?
 #docker push rekgrpth/cherry || exit $?

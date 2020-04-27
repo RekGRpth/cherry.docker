@@ -3,7 +3,7 @@ COPY cgi_perl.c /tmp/
 ENV GROUP=cherry \
     USER=cherry
 VOLUME "${HOME}"
-RUN set -x \
+RUN set -ex \
     && addgroup -S "${GROUP}" \
     && adduser -D -S -h "${HOME}" -s /sbin/nologin -G "${GROUP}" "${USER}" \
     && apk add --no-cache --virtual .build-deps \

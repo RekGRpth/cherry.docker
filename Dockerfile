@@ -28,4 +28,6 @@ RUN set -eux; \
     (strip /usr/local/bin/* /usr/local/lib/*.so || true); \
     apk del --no-cache .build-deps; \
     rm -rf /tmp/* /usr/src /usr/share/doc /usr/share/man /usr/local/share/doc /usr/local/share/man; \
+    find / -name "*.a" -delete; \
+    find / -name "*.la" -delete; \
     echo done

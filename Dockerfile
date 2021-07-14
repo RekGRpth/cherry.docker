@@ -1,5 +1,4 @@
 FROM rekgrpth/gost
-COPY cgi_perl.c /tmp/
 ENV GROUP=cherry \
     USER=cherry
 VOLUME "${HOME}"
@@ -7,7 +6,9 @@ RUN set -eux; \
     addgroup -S "${GROUP}"; \
     adduser -D -S -h "${HOME}" -s /sbin/nologin -G "${GROUP}" "${USER}"; \
     apk add --no-cache --virtual .build-deps \
+        ca-certificates \
         gcc \
+        git \
         gnupg \
         make \
         musl-dev \
@@ -15,10 +16,14 @@ RUN set -eux; \
         perl-utils \
         postgresql-dev \
     ; \
-    perl -MExtUtils::Embed -e xsinit -- -o /tmp/perlxsi.c; \
-    gcc -c /tmp/perlxsi.c -fPIC $(perl -MExtUtils::Embed -e ccopts) -o /tmp/perlxsi.o; \
-    gcc -c /tmp/cgi_perl.c -fPIC $(perl -MExtUtils::Embed -e ccopts) -o /tmp/cgi_perl.o; \
-    gcc -shared -o /usr/local/lib/cgi_perl.so -fPIC /tmp/perlxsi.o /tmp/cgi_perl.o $(perl -MExtUtils::Embed -e ldopts); \
+    mkdir -p /usr/src; \
+    cd /usr/src; \
+    git clone https://bitbucket.org/RekGRpth/cherry.git; \
+    cd /usr/src/cherry; \
+    perl -MExtUtils::Embed -e xsinit -- -o perlxsi.c; \
+    gcc -c perlxsi.c -fPIC $(perl -MExtUtils::Embed -e ccopts) -o perlxsi.o; \
+    gcc -c cgi_perl.c -fPIC $(perl -MExtUtils::Embed -e ccopts) -o cgi_perl.o; \
+    gcc -shared -o /usr/local/lib/cgi_perl.so -fPIC perlxsi.o cgi_perl.o $(perl -MExtUtils::Embed -e ldopts); \
     cpan -Ti CGI CGI::Deurl CGI::FastTemplate CGI::Session DBD::Pg DBI YAML YAML::Syck; \
     apk add --no-cache --virtual .cherry-rundeps \
         coreutils \
@@ -27,7 +32,7 @@ RUN set -eux; \
     ; \
     (strip /usr/local/bin/* /usr/local/lib/*.so || true); \
     apk del --no-cache .build-deps; \
-    rm -rf /tmp/* /usr/src /usr/share/doc /usr/share/man /usr/local/share/doc /usr/local/share/man; \
+    rm -rf /usr/src /usr/share/doc /usr/share/man /usr/local/share/doc /usr/local/share/man; \
     find / -name "*.a" -delete; \
     find / -name "*.la" -delete; \
     echo done

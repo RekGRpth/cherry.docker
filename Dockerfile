@@ -1,4 +1,5 @@
 FROM rekgrpth/gost
+ADD cgi_perl.c "${HOME}/src/"
 ENV GROUP=cherry \
     USER=cherry
 VOLUME "${HOME}"
@@ -6,9 +7,7 @@ RUN set -eux; \
     addgroup -S "${GROUP}"; \
     adduser -D -S -h "${HOME}" -s /sbin/nologin -G "${GROUP}" "${USER}"; \
     apk add --no-cache --virtual .build-deps \
-        ca-certificates \
         gcc \
-        git \
         gnupg \
         make \
         musl-dev \
@@ -16,10 +15,7 @@ RUN set -eux; \
         perl-utils \
         postgresql-dev \
     ; \
-    mkdir -p "${HOME}"; \
-    cd "${HOME}"; \
-    git clone https://bitbucket.org/RekGRpth/cherry.git; \
-    cd "${HOME}/cherry"; \
+    cd "${HOME}/src"; \
     perl -MExtUtils::Embed -e xsinit -- -o perlxsi.c; \
     gcc -c perlxsi.c -fPIC $(perl -MExtUtils::Embed -e ccopts) -o perlxsi.o; \
     gcc -c cgi_perl.c -fPIC $(perl -MExtUtils::Embed -e ccopts) -o cgi_perl.o; \

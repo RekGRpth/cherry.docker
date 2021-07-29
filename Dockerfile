@@ -2,7 +2,6 @@ FROM rekgrpth/gost
 ADD cgi_perl.c "${HOME}/src/"
 ENV GROUP=cherry \
     USER=cherry
-VOLUME "${HOME}"
 RUN set -eux; \
     addgroup -S "${GROUP}"; \
     adduser -D -S -h "${HOME}" -s /sbin/nologin -G "${GROUP}" "${USER}"; \

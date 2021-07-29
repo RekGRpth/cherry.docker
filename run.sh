@@ -1,8 +1,6 @@
-#!/bin/sh -ex
+#!/bin/sh -eux
 
-#docker build --tag rekgrpth/cherry .
-#docker push rekgrpth/cherry
-docker pull rekgrpth/cherry
+docker pull ghcr.io/rekgrpth/cherry.docker
 docker volume create cherry
 docker network create --attachable --opt com.docker.network.bridge.name=docker docker || echo $?
 docker stop cherry || echo $?
@@ -21,4 +19,4 @@ docker run \
     --name cherry \
     --network name=docker \
     --restart always \
-    rekgrpth/cherry uwsgi --ini cherry.ini
+    ghcr.io/rekgrpth/cherry.docker uwsgi --ini cherry.ini

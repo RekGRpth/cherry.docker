@@ -1,4 +1,4 @@
-FROM rekgrpth/gost
+FROM ghcr.io/rekgrpth/gost.docker
 ADD cgi_perl.c "${HOME}/src/"
 ENV GROUP=cherry \
     USER=cherry

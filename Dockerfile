@@ -24,6 +24,7 @@ RUN set -eux; \
     gcc -shared -o /usr/local/lib/cgi_perl.so -fPIC perlxsi.o cgi_perl.o $(perl -MExtUtils::Embed -e ldopts); \
     cd "${HOME}"; \
     cpan -Ti CGI CGI::Deurl CGI::FastTemplate CGI::Session DBD::Pg DBI YAML YAML::Syck; \
+    cd /; \
     apk add --no-cache --virtual .cherry-rundeps \
         coreutils \
         uwsgi-cgi \

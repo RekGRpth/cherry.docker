@@ -30,6 +30,7 @@ RUN set -eux; \
         DBD::Pg \
         DBI \
         Text::Iconv \
+        utf8::all \
         YAML \
         YAML::Syck \
     ; \

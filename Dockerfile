@@ -10,11 +10,11 @@ RUN set -eux; \
     apk add --no-cache --virtual .build-deps \
         gcc \
         gnupg \
+        libpq-dev \
         make \
         musl-dev \
         perl-dev \
         perl-utils \
-        postgresql-dev \
     ; \
     cd "${HOME}/src"; \
     perl -MExtUtils::Embed -e xsinit -- -o perlxsi.c; \
@@ -22,7 +22,17 @@ RUN set -eux; \
     gcc -c cgi_perl.c -fPIC $(perl -MExtUtils::Embed -e ccopts) -o cgi_perl.o; \
     gcc -shared -o /usr/local/lib/cgi_perl.so -fPIC perlxsi.o cgi_perl.o $(perl -MExtUtils::Embed -e ldopts); \
     cd "${HOME}"; \
-    cpan -Ti CGI CGI::Deurl CGI::FastTemplate CGI::Session DBD::Pg DBI YAML YAML::Syck; \
+    cpan -Ti \
+        CGI \
+        CGI::Deurl \
+        CGI::FastTemplate \
+        CGI::Session \
+        DBD::Pg \
+        DBI \
+        Text::Iconv \
+        YAML \
+        YAML::Syck \
+    ; \
     cd /; \
     apk add --no-cache --virtual .cherry-rundeps \
         coreutils \

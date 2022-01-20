@@ -1,13 +1,14 @@
-FROM ghcr.io/rekgrpth/gost.docker
-ADD cgi_perl.c "${HOME}/src/"
+ARG DOCKER_FROM=gost.docker:latest
+FROM "ghcr.io/rekgrpth/$DOCKER_FROM"
+ADD cgi_perl.c "$HOME/src/"
 ENV GROUP=cherry \
     USER=cherry
 RUN set -eux; \
-    addgroup -S "${GROUP}"; \
-    adduser -D -S -h "${HOME}" -s /sbin/nologin -G "${GROUP}" "${USER}"; \
     apk update --no-cache; \
     apk upgrade --no-cache; \
-    apk add --no-cache --virtual .build-deps \
+    addgroup -S "$GROUP"; \
+    adduser -S -D -G "$GROUP" -H -h "$HOME" -s /sbin/nologin "$USER"; \
+    apk add --no-cache --virtual .build \
         gcc \
         gnupg \
         libpq-dev \
@@ -16,12 +17,13 @@ RUN set -eux; \
         perl-dev \
         perl-utils \
     ; \
-    cd "${HOME}/src"; \
+    mkdir -p "$HOME/src"; \
+    cd "$HOME/src"; \
     perl -MExtUtils::Embed -e xsinit -- -o perlxsi.c; \
     gcc -c perlxsi.c -fPIC $(perl -MExtUtils::Embed -e ccopts) -o perlxsi.o; \
     gcc -c cgi_perl.c -fPIC $(perl -MExtUtils::Embed -e ccopts) -o cgi_perl.o; \
     gcc -shared -o /usr/local/lib/cgi_perl.so -fPIC perlxsi.o cgi_perl.o $(perl -MExtUtils::Embed -e ldopts); \
-    cd "${HOME}"; \
+    cd "$HOME"; \
     cpan -Ti \
         CGI \
         CGI::Deurl \
@@ -35,15 +37,16 @@ RUN set -eux; \
         YAML::Syck \
     ; \
     cd /; \
-    apk add --no-cache --virtual .cherry-rundeps \
+    apk add --no-cache --virtual .cherry \
         coreutils \
         uwsgi-cgi \
-        $(scanelf --needed --nobanner --format '%n#p' --recursive /usr/local | tr ',' '\n' | sort -u | while read -r lib; do test ! -e "/usr/local/lib/$lib" && echo "so:$lib"; done) \
+        $(scanelf --needed --nobanner --format '%n#p' --recursive /usr/local | tr ',' '\n' | grep -v "^$" | sort -u | while read -r lib; do test -z "$(find /usr/local/lib -name "$lib")" && echo "so:$lib"; done) \
     ; \
     find /usr/local/bin -type f -exec strip '{}' \;; \
     find /usr/local/lib -type f -name "*.so" -exec strip '{}' \;; \
-    apk del --no-cache .build-deps; \
-    find /usr -type f -name "*.a" -delete; \
+    apk del --no-cache .build; \
+    rm -rf "$HOME" /usr/share/doc /usr/share/man /usr/local/share/doc /usr/local/share/man; \
     find /usr -type f -name "*.la" -delete; \
-    rm -rf "${HOME}" /usr/share/doc /usr/share/man /usr/local/share/doc /usr/local/share/man; \
+    mkdir -p "$HOME"; \
+    chown -R "$USER":"$GROUP" "$HOME"; \
     echo done

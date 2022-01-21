@@ -7,13 +7,13 @@ on:
     types:
       - latest
   workflow_dispatch:
+env:
+  GITHUB_TOKEN: ${{ github.token }}
 jobs:
   latest:
     concurrency:
       cancel-in-progress: true
       group: ${{ github.ref }}/latest
-    env:
-      GITHUB_TOKEN: ${{ github.token }}
     name: ${{ github.event.client_payload.repository }} ${{ github.event_name }} ${{ github.event.branch }}
     runs-on: ubuntu-latest
     steps:
@@ -27,7 +27,6 @@ jobs:
       group: ${{ github.ref }}/edge
     env:
       DOCKER_FROM: gost.docker:edge
-      GITHUB_TOKEN: ${{ github.token }}
       INPUTS_TAG: edge
     runs-on: ubuntu-latest
     steps:

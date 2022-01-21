@@ -13,7 +13,7 @@ jobs:
   latest:
     concurrency:
       cancel-in-progress: true
-      group: ${{ github.ref }}/latest
+      group: ${{ github.ref }}/${{ github.job }}
     name: ${{ github.event.client_payload.repository }} ${{ github.event_name }} ${{ github.event.branch }}
     runs-on: ubuntu-latest
     steps:
@@ -24,7 +24,7 @@ jobs:
   edge:
     concurrency:
       cancel-in-progress: true
-      group: ${{ github.ref }}/edge
+      group: ${{ github.ref }}/${{ github.job }}
     env:
       DOCKER_FROM: gost.docker:edge
       INPUTS_TAG: edge

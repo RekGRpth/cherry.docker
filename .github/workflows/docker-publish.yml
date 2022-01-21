@@ -12,7 +12,6 @@ env:
 concurrency:
   cancel-in-progress: true
   group: ${{ github.ref }}/${{ github.job }}
-timeout-minutes: 20
 jobs:
   latest:
     name: ${{ github.event.client_payload.repository }} ${{ github.event_name }} ${{ github.event.branch }}
@@ -21,6 +20,7 @@ jobs:
       - uses: rekgrpth/git-clone-shell-action@v1
       - uses: rekgrpth/docker-login-build-push-shell-action@v1
       - uses: rekgrpth/github-publish-action-shell-action@v1
+    timeout-minutes: 20
   edge:
     env:
       DOCKER_FROM: gost.docker:edge
@@ -30,3 +30,4 @@ jobs:
       - uses: rekgrpth/git-clone-shell-action@v1
       - uses: rekgrpth/docker-login-build-push-shell-action@v1
       - uses: rekgrpth/github-publish-action-shell-action@v1
+    timeout-minutes: 20

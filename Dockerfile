@@ -1,5 +1,4 @@
-ARG DOCKER_FROM=gost.docker:latest
-FROM "ghcr.io/rekgrpth/$DOCKER_FROM"
+FROM ghcr.io/rekgrpth/gost.docker:latest
 ADD cgi_perl.c "$HOME/src/"
 ENV GROUP=cherry \
     USER=cherry

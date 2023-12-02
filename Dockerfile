@@ -1,8 +1,15 @@
-FROM ghcr.io/rekgrpth/gost.docker:latest
+FROM alpine:latest
+ADD bin /usr/local/bin
+ENTRYPOINT [ "docker_entrypoint.sh" ]
+ENV HOME=/home
+MAINTAINER RekGRpth
+WORKDIR "$HOME"
 ADD cgi_perl.c "$HOME/src/"
 ENV GROUP=cherry \
     USER=cherry
 RUN set -eux; \
+    ln -fs su-exec /sbin/gosu; \
+    chmod +x /usr/local/bin/*.sh; \
     apk update --no-cache; \
     apk upgrade --no-cache; \
     addgroup -S "$GROUP"; \
@@ -37,7 +44,14 @@ RUN set -eux; \
     ; \
     cd /; \
     apk add --no-cache --virtual .cherry \
+        busybox-extras \
+        busybox-suid \
+        ca-certificates \
         coreutils \
+        musl-locales \
+        shadow \
+        su-exec \
+        tzdata \
         uwsgi-cgi \
         $(scanelf --needed --nobanner --format '%n#p' --recursive /usr/local | tr ',' '\n' | grep -v "^$" | grep -v -e libcrypto | sort -u | while read -r lib; do test -z "$(find /usr/local/lib -name "$lib")" && echo "so:$lib"; done) \
     ; \
